@@ -35,9 +35,9 @@ const signin = async (req, res) => {
 
 const signup = async (req, res) => {
   const { email, password, confirmPassword, firstName, lastName } = req.body;
-
   try {
     const existingUser = await User.findOne({ email });
+
     if (existingUser) {
       return res.status(404).json({ message: 'User already exists' });
     }
@@ -57,7 +57,7 @@ const signup = async (req, res) => {
       { email: result.email, id: result._id },
       process.env.SECRET,
       {
-        expiresIn: '1h',
+        expiresIn: '2h',
       }
     );
 
@@ -69,12 +69,9 @@ const signup = async (req, res) => {
 
 const placeOrder = async (req, res) => {
   const userId = req.userId;
-  console.log(userId);
   try {
     const user = await User.findById(userId);
     const cart = await Cart.findOne({ userId });
-    console.log(user);
-    console.log(cart);
     if (user && cart) {
       cart.items.forEach(({ itemId, quantity, price }) => {
         user.orders.push({ itemId, quantity, price });

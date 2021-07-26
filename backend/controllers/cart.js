@@ -3,14 +3,12 @@ const Cart = require('../models/cart.js');
 const addtoCart = async (req, res) => {
   const { itemId, quantity, price } = req.body;
   const userId = req.userId;
-
   try {
     let cart = await Cart.findOne({ userId });
     if (cart) {
-      let itemIndex = await cart.items.findIndex(
-        (item) => item.itemId === itemId
+      let itemIndex = await cart.items.findIndex((item) =>
+        item.itemId.equals(itemId)
       );
-
       if (itemIndex > -1) {
         cart.items[itemIndex].quantity = quantity;
         cart.items[itemIndex].price = price;

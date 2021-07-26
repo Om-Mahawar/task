@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.post('/signin', signin);
 router.post('/signup', signup);
-router.post('/placeOrder', auth, placeOrder);
+router.post('/placeorder', auth, placeOrder);
 
 module.exports = router;
